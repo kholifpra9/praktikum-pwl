@@ -9,15 +9,15 @@
             <div class="bg-white dark:bg-gray-800 overflowhidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray100">
                     <x-primary-button tag="a" href="{{route('bookshelf.create')}}">Create Data Bookshelf</x-primary-button>
-                    <x-primary-button tag="a" href="{{route('bookshelf.print')}}">Print</x-danger-button>
-                    <x-primary-button tag="a" href="{{route('bookshelf.export')}}">Export</x-danger-button>
+                    <x-primary-button tag="a" href="{{route('bookshelf.print')}}">Print</x-primary-button>
+                    <x-primary-button tag="a" href="{{route('bookshelf.export')}}">Export</x-primary-button>
+                    <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'import-book')">{{ __('Import Excel') }}</x-primary-button>
                     <x-table>
                         <x-slot name="header">
                             <tr>
                                 <th>#</th>
                                 <th>Code</th>
                                 <th>Name</th>
-                                <th>Image</th>
                                 <th>Action</th>
                             </tr>
                         </x-slot>
@@ -35,13 +35,32 @@
                                 x-on:click="$dispatch('set-action', '{{route('bookshelf.destroy', $bookshelf->id) }}')">{{
                                 __('Delete') }}</x-danger-button>
                             </td>
-                            <td>
-                                <img class="" src="{{ asset('storage/cover_bookshelf/' . $bookshelf->image) }}" alt="Kosong" width="100" height="100">
-                            </td>
                         </tr>
                         @endforeach
                     </x-table>
 
+                    <x-modal name="import-book" focusable maxWidth="xl">
+                        <form method="post" action="{{ route('bookshelf.import') }}"
+                           class="p-6" enctype="multipart/form-data">
+                           @csrf
+                           <h2 class="text-lg font-medium text-gray-900 dark:text-gray100">
+                              {{ __('Import Data Buku') }}
+                           </h2>
+                           <div class="max-w-xl">
+                              <x-input-label for="cover" class="sr-only" value="File
+                                 Import"/>
+                              <x-file-input id="cover" name="file" class="mt-1 block wfull" required/>
+                           </div>
+                           <div class="mt-6 flex justify-end">
+                              <x-secondary-button x-on:click="$dispatch('close')">
+                                 {{ __('Cancel') }}
+                              </x-secondary-button>
+                              <x-primary-button class="ml-3">
+                                 {{ __('Upload') }}
+                              </x-primary-button>
+                           </div>
+                        </form>
+                     </x-modal>
 
                     <x-modal name="confirm-bookshelf-deletion" focusable maxWidth="xl">
                         <form method="post" x-bind:action="action" class="p-6">

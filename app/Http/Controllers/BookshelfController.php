@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BookshelfExport;
 use App\Models\Bookshelf;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BookshelfController extends Controller
 {
@@ -81,5 +83,9 @@ class BookshelfController extends Controller
         $data = Bookshelf::all();
         $pdf = Pdf::loadview('bookshelves.print', ['bookshelves' => $data]);
         return $pdf->download('bookshelves.pdf');
+    }
+
+    public function export(){
+        return Excel::download(new BookshelfExport, 'bookshelf.xlsx');
     }
 }

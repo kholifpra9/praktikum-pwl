@@ -9,7 +9,8 @@
             <div class="bg-white dark:bg-gray-800 overflowhidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray100">
                     <x-primary-button tag="a" href="{{route('bookshelf.create')}}">Create Data Bookshelf</x-primary-button>
-                    <x-danger-button tag="a" href="{{route('bookshelf.print')}}">Print</x-danger-button>
+                    <x-primary-button tag="a" href="{{route('bookshelf.print')}}">Print</x-danger-button>
+                    <x-primary-button tag="a" href="{{route('bookshelf.export')}}">Export</x-danger-button>
                     <x-table>
                         <x-slot name="header">
                             <tr>
